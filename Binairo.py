@@ -181,6 +181,17 @@ def is_unique_limit_heuristic(state: State):
     return const_count
 
 
+def get_all_variables(state: State) -> list:
+    # this function gives us the variables that is not assigned or assigned
+    board = state.board
+    vars = []
+    for i in range(0, state.size):
+        for j in range(0, state.size):
+            vars.append(board[i][j])
+
+    return vars
+
+
 def get_unassigned_variables(state: State) -> list:
     # this function gives us the variables that is not assigned any value (_)
     board = state.board
@@ -261,7 +272,7 @@ def lcv(cell: Cell, state: State):
             count += is_unique_limit_heuristic(state)
             cell.value = "_"
             lcv_var = LCV_Var(cell, count)
-            heapq.heappush(lcv_domain, count)
+            heapq.heappush(lcv_domain, lcv_var)
         return lcv_domain
 
 
