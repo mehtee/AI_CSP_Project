@@ -57,9 +57,30 @@ def check_circles_limit(state: State):  # returns false if number of white or bl
     return True
 
 
-def check_circles_limit_heuristic(cell: Cell):
+def check_circles_limit_heuristic(state: State):
     # to check how many constraints are going to make in a row or col for the constraint of number of whites/blacks
-    pass
+    
+    count = 0
+    # check rows
+    for i in range(0, state.size):
+        for j in range(0, state.size - 2):
+            if (state.board[i][j].value.upper() == state.board[i][j + 1].value.upper() and
+                    state.board[i][j + 1].value.upper() == state.board[i][j + 2].value.upper() and
+                    state.board[i][j].value != '_' and
+                    state.board[i][j + 1].value != '_' and
+                    state.board[i][j + 2].value != '_'):
+                count += 1
+    # check cols
+    for j in range(0, state.size):  # cols
+        for i in range(0, state.size - 2):  # rows
+            if (state.board[i][j].value.upper() == state.board[i + 1][j].value.upper()
+                    and state.board[i + 1][j].value.upper() == state.board[i + 2][j].value.upper()
+                    and state.board[i][j].value != '_'
+                    and state.board[i + 1][j].value != '_'
+                    and state.board[i + 2][j].value != '_'):
+                count += 1
+
+    return count
 
 
 def check_more_than_two_limit_heuristic(cell: Cell):
