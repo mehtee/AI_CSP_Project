@@ -87,6 +87,10 @@ def is_unique(state: State):  # checks if all rows are unique && checks if all c
 
 
 def lcv(state: State):
+    # this is the least constraining value heuristic.
+    # it should choose the value in the domain of the current cell to populate
+    # which removes least values from other variables' domains
+    # but the constraints are not binary, so it's not exactly as LCV.
     pass
 
 def mrv(state: State):
