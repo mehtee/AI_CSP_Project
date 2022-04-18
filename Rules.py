@@ -52,8 +52,12 @@ def new_domain_after_checking_circles_limit(state: State, cell: Cell):
     return (True, domain_after_check)
 
 
-def conditional_two_limit(first, sign1, sign2):
-    return ((first == sign1) or (first == sign2))
+def conditional_two_limit(first, sign1):
+    return (first.upper() == sign1.upper())
+
+
+def comp_value(firstCell, secondCell):
+    return firstCell.value.upper() == secondCell.value.upper()
 
 
 def conditional_equivalent(sign, domain):
@@ -76,9 +80,19 @@ def equivalent_forms(sign):
 
 def check_more_than_two_limit(arr: list, index, domain):
     new_domain = deepcopy(domain)
-    if index >= 2 and (conditional_two_limit(arr[index - 1], "w", "W") or conditional_two_limit(arr[index - 1], "b", "B")) and conditional_equivalent(arr[index - 1], new_domain):
+    if (index >= 2) and (comp_value(arr[index - 1], arr[index - 2])) and (conditional_two_limit(arr[index - 1], "w") or conditional_two_limit(arr[index - 1], "b")) and conditional_equivalent(arr[index - 1], new_domain):
         equivalentForms = equivalent_forms(arr[index - 1])
         remove_from_domain(new_domain, equivalentForms[0], equivalentForms[1])
+
+    if (len(arr) - 2 >= index >= 1) and (comp_value(arr[index - 1], arr[index + 1])) and (conditional_two_limit(arr[index - 1], "w") or conditional_two_limit(arr[index - 1], "b")) and conditional_equivalent(arr[index - 1], new_domain):
+        equivalentForms = equivalent_forms(arr[index - 1])
+        remove_from_domain(new_domain, equivalentForms[0], equivalentForms[1])
+
+    if (index <= len(arr) - 3) and (comp_value(arr[index + 1], arr[index + 2])) and (conditional_two_limit(arr[index + 1], "w") or conditional_two_limit(arr[index + 1], "b")) and conditional_equivalent(arr[index + 1], new_domain):
+        equivalentForms = equivalent_forms(arr[index + 1])
+        remove_from_domain(new_domain, equivalentForms[0], equivalentForms[1])
+
+    return new_domain
 
 
 def new_domain_after_checking_more_than_two_limit(state: State, cell: Cell):
