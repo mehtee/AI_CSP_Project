@@ -1,6 +1,6 @@
 import State, Cell
 from copy import deepcopy
-
+from Binairo import is_unique
 
 def get_col(arr, column_index):
     col = []
@@ -35,7 +35,7 @@ def new_domain_after_checking_circles_limit(state: State, cell: Cell):
 
     domain_after_check = deepcopy(cell.domain)
     if condition_gt(row_arr, "w", "W") or condition_gt(row_arr, "b", "B") or condition_gt(col_arr, "w", "W") or condition_gt(col_arr, "b", "B"):
-        return (False, None)
+        return []
 
     if condition_eq(row_arr, "w", "W") and ("w" in domain_after_check or "W" in domain_after_check):
         remove_from_domain(domain_after_check, "w", "W")
@@ -49,7 +49,7 @@ def new_domain_after_checking_circles_limit(state: State, cell: Cell):
     if condition_eq(col_arr, "b", "B") and ("b" in domain_after_check or "B" in domain_after_check):
         remove_from_domain(domain_after_check, "w", "W")
 
-    return (True, domain_after_check)
+    return domain_after_check
 
 
 def conditional_two_limit(first, sign1):
@@ -108,3 +108,22 @@ def new_domain_after_checking_more_than_two_limit(state: State, cell: Cell):
     domain_after_check = check_more_than_two_limit(col_arr, x, domain_after_check)
 
     return domain_after_check
+
+
+def check_for_new_domain(state: State, cell: Cell):
+    # first rule:
+    new_domain = new_domain_after_checking_circles_limit(state, cell)
+    if not new_domain:
+        return []
+
+    # second rule:
+    if not is_unique(state):
+        return []
+
+    # third rule:
+    new_domain = new_domain_after_checking_more_than_two_limit(state, cell)
+
+    if not len(new_domain):
+        return []
+
+		return new_domain
