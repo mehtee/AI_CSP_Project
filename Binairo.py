@@ -86,15 +86,16 @@ def is_unique(state: State):  # checks if all rows are unique && checks if all c
     return True
 
 
-def get_unassigned_variables(state: State):
+def get_unassigned_variables(state: State) -> list:
     # this function gives us the variables that is not assigned any value (_)
     board = state.board
     vars = []
     for i in range(0, state.size):
         for j in range(0, state.size):
             if board[i][j].value == "_":
-                vars.append((i, j))
+                vars.append(board[i][j])
 
+    return vars
 
 def lcv(state: State):
     # this is the least constraining value heuristic.
@@ -103,9 +104,19 @@ def lcv(state: State):
     # but the constraints are not binary, so it's not exactly as LCV.
     pass
 
-def most_constrained_variables(variables) -> list:
+def most_constrained_variables(variables: list):
     # returns a list of most constrained variables
-    pass
+    min_domain_size = math.inf # set to infinity to use in the comparison
+    most_constrained_vars = []
+    for cell in variables:
+        if len(cell.domain) < min_domain_size:
+            min_domain_size = len(cell.domain)
+
+    for cell in variables:
+        if len(cell.domain) == min_domain_size:
+            most_constrained_vars.append(cell)
+
+    return most_constrained_vars
 
 def most_constraining_variable(most_constrained_variables):
     # returns a list of most constrained variables
@@ -118,8 +129,9 @@ def mrv(state: State):
     # which is giving us a list of most constrained variables
     # 2. Most-constraining-variable heuristic
     # which gives us the most constraining variable
-    vars = []
+    vars = get_unassigned_variables(state)
     most_constrained_vars = most_constrained_variables(vars)
+    print(most_constrained_vars)
     most_constraining_var = most_constraining_variable(most_constrained_vars)
     return None
 
