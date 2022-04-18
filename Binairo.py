@@ -86,7 +86,7 @@ def is_unique(state: State):  # checks if all rows are unique && checks if all c
     return True
 
 
-def get_variables(state: State):
+def get_unassigned_variables(state: State):
     # this function gives us the variables that is not assigned any value (_)
     board = state.board
     vars = []
