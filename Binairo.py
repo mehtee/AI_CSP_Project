@@ -86,6 +86,16 @@ def is_unique(state: State):  # checks if all rows are unique && checks if all c
     return True
 
 
+def get_variables(state: State):
+    # this function gives us the variables that is not assigned any value (_)
+    board = state.board
+    vars = []
+    for i in range(0, state.size):
+        for j in range(0, state.size):
+            if board[i][j].value == "_":
+                vars.append((i, j))
+
+
 def lcv(state: State):
     # this is the least constraining value heuristic.
     # it should choose the value in the domain of the current cell to populate
