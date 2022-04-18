@@ -3,7 +3,7 @@ import math
 import State
 
 
-def check_Adjancy_Limit(state: State):
+def check_more_than_two_limit(state: State):
     # check rows
     for i in range(0, state.size):
         for j in range(0, state.size - 2):
@@ -156,7 +156,7 @@ def is_assignment_complete(state: State):  # check if all variables are assigned
 
 
 def is_consistent(state: State):
-    return check_Adjancy_Limit(state) and check_circles_limit(state) and is_unique(state)
+    return check_more_than_two_limit(state) and check_circles_limit(state) and is_unique(state)
 
 
 def check_termination(state: State):
