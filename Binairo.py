@@ -62,6 +62,11 @@ def check_circles_limit_heuristic(cell: Cell):
     pass
 
 
+def check_more_than_two_limit_heuristic(cell: Cell):
+    # to check how many constraints are going to make in a row or col for the constraint of more than 2 same circles
+    pass
+
+
 def is_unique(state: State):  # checks if all rows are unique && checks if all cols are unique
     # check rows
     for i in range(0, state.size - 1):
