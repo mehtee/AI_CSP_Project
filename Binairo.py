@@ -93,11 +93,24 @@ def lcv(state: State):
     # but the constraints are not binary, so it's not exactly as LCV.
     pass
 
+def most_constrained_variables(variables) -> list:
+    # returns a list of most constrained variables
+    pass
+
+def most_constraining_variable(most_constrained_variables):
+    # returns a list of most constrained variables
+    return None
+
 def mrv(state: State):
     # This is Minimum Remaining Value algorithm
     # Which is two factors
     # 1. Most-constrained-variable heuristic
+    # which is giving us a list of most constrained variables
     # 2. Most-constraining-variable heuristic
+    # which gives us the most constraining variable
+    vars = []
+    most_constrained_vars = most_constrained_variables(vars)
+    most_constraining_var = most_constraining_variable(most_constrained_vars)
     return None
 
 
