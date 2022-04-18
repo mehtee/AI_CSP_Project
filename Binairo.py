@@ -67,6 +67,11 @@ def check_more_than_two_limit_heuristic(cell: Cell):
     pass
 
 
+def is_unique_limit_heuristic(cell: Cell):
+    # to check how many constraints are going to make for the constraint of uniqueness of cols/rows
+    pass
+
+
 def is_unique(state: State):  # checks if all rows are unique && checks if all cols are unique
     # check rows
     for i in range(0, state.size - 1):
