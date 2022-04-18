@@ -1,6 +1,7 @@
 from copy import deepcopy
 import math
 import State
+import Cell
 
 
 def check_more_than_two_limit(state: State):
@@ -54,6 +55,11 @@ def check_circles_limit(state: State):  # returns false if number of white or bl
         no_white_col = 0
 
     return True
+
+
+def check_circles_limit_heuristic(cell: Cell):
+    # to check how many constraints are going to make in a row or col for the constraint of number of whites/blacks
+    pass
 
 
 def is_unique(state: State):  # checks if all rows are unique && checks if all cols are unique
