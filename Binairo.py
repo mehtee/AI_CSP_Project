@@ -57,6 +57,38 @@ def check_circles_limit(state: State):  # returns false if number of white or bl
     return True
 
 
+def is_unique(state: State):  # checks if all rows are unique && checks if all cols are unique
+    # check rows
+    for i in range(0, state.size - 1):
+        for j in range(i + 1, state.size):
+            count = 0
+            for k in range(0, state.size):
+                if (state.board[i][k].value.upper() == state.board[j][k].value.upper()
+                        and state.board[i][k].value != '_'
+                        and state.board[j][k].value != '_'):
+                    count += 1
+            if count == state.size:
+                return False
+            count = 0
+
+    # check cols
+    for j in range(0, state.size - 1):
+        for k in range(j + 1, state.size):
+            count_col = 0
+            for i in range(0, state.size):
+                if (state.board[i][j].value.upper() == state.board[i][k].value.upper()
+                        and state.board[i][j].value != '_'
+                        and state.board[i][k].value != '_'):
+                    count_col += 1
+            if count_col == state.size:
+                return False
+            count_col = 0
+
+    return True
+
+
+
+
 def check_circles_limit_heuristic(state: State):
     # to check how many constraints are going to make in a row or col for the constraint of number of whites/blacks
 
@@ -115,12 +147,9 @@ def check_more_than_two_limit_heuristic(state: State):
     return count
 
 
-def is_unique_limit_heuristic(cell: Cell):
+def is_unique_limit_heuristic(state: State):
     # to check how many constraints are going to make for the constraint of uniqueness of cols/rows
-    pass
-
-
-def is_unique(state: State):  # checks if all rows are unique && checks if all cols are unique
+    const_count = 0
     # check rows
     for i in range(0, state.size - 1):
         for j in range(i + 1, state.size):
@@ -131,7 +160,7 @@ def is_unique(state: State):  # checks if all rows are unique && checks if all c
                         and state.board[j][k].value != '_'):
                     count += 1
             if count == state.size:
-                return False
+                const_count += 1
             count = 0
 
     # check cols
@@ -144,10 +173,10 @@ def is_unique(state: State):  # checks if all rows are unique && checks if all c
                         and state.board[i][k].value != '_'):
                     count_col += 1
             if count_col == state.size:
-                return False
+                const_count += 1
             count_col = 0
 
-    return True
+    return const_count
 
 
 def get_unassigned_variables(state: State) -> list:
