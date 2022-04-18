@@ -191,13 +191,6 @@ def get_unassigned_variables(state: State) -> list:
 
     return vars
 
-def lcv(state: State):
-    # this is the least constraining value heuristic.
-    # it should choose the value in the domain of the current cell to populate
-    # which removes least values from other variables' domains
-    # but the constraints are not binary, so it's not exactly as LCV.
-    pass
-
 def most_constrained_variables(variables: list):
     # returns a list of most constrained variables
     min_domain_size = math.inf # set to infinity to use in the comparison
@@ -249,6 +242,14 @@ def mrv(state: State):
     most_constrained_vars = most_constrained_variables(vars)
     most_constraining_var = most_constraining_variable(state, most_constrained_vars)
     return most_constraining_var
+
+
+def lcv(cell: Cell):
+    # this is the least constraining value heuristic.
+    # it should choose the value in the domain of the current cell to populate
+    # which removes least values from other variables' domains
+    # but the constraints are not binary, so it's not exactly as LCV.
+    pass
 
 
 def backTrack(state: State):
