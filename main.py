@@ -22,6 +22,7 @@ def main():
         row = []
         for j in range(0, size_puzzle):
             cell = Cell(i, j)
+            cell.value = "_"
             row.append(cell)
         board.append(row)
 
@@ -46,3 +47,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+	
