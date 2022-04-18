@@ -224,15 +224,19 @@ def most_constraining_variable(state:State, most_constrained_variables):
             count += check_circles_limit_heuristic(state)
             count += check_more_than_two_limit_heuristic(state)
             count += is_unique_limit_heuristic(state)
+            # check for white
             cell.value = "w"
             count += check_circles_limit_heuristic(state)
             count += check_more_than_two_limit_heuristic(state)
             count += is_unique_limit_heuristic(state)
+            # backup its value which was nothing
             cell.value = "_"
+            # make an object of MRV_Var to use it for comparison in heapq
             mrv_var = MRV_Var(cell, count)
             heapq.heappush(most_constraining_variables, mrv_var)
 
     return heapq.heappop(most_constraining_variables)
+
 
 def mrv(state: State):
     # This is Minimum Remaining Value algorithm
@@ -243,10 +247,8 @@ def mrv(state: State):
     # which gives us the most constraining variable
     vars = get_unassigned_variables(state)
     most_constrained_vars = most_constrained_variables(vars)
-    print(most_constrained_vars)
     most_constraining_var = most_constraining_variable(state, most_constrained_vars)
-    print(most_constraining_var)
-    return None
+    return most_constraining_var
 
 
 def backTrack(state: State):
