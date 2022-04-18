@@ -119,7 +119,7 @@ def most_constrained_variables(variables: list):
     return most_constrained_vars
 
 def most_constraining_variable(most_constrained_variables):
-    # returns a list of most constrained variables
+    # returns the most constraining variable
     return None
 
 def mrv(state: State):
