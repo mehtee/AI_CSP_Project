@@ -4,6 +4,7 @@ import State
 import Cell
 import heapq
 from MRV_Var import MRV_Var
+from LCV_Var import LCV_Var
 
 def check_more_than_two_limit(state: State):
     # check rows
@@ -191,7 +192,8 @@ def get_unassigned_variables(state: State) -> list:
 
     return vars
 
-def most_constrained_variables(variables: list):
+
+def most_constrained_variables(variables: list) -> list:
     # returns a list of most constrained variables
     min_domain_size = math.inf # set to infinity to use in the comparison
     most_constrained_vars = []
@@ -206,7 +208,7 @@ def most_constrained_variables(variables: list):
     return most_constrained_vars
 
 
-def most_constraining_variable(state:State, most_constrained_variables):
+def most_constraining_variable(state:State, most_constrained_variables) -> Cell:
     # returns the most constraining variable
     most_constraining_variables = []
     for cell in most_constrained_variables:
@@ -228,10 +230,10 @@ def most_constraining_variable(state:State, most_constrained_variables):
             mrv_var = MRV_Var(cell, count)
             heapq.heappush(most_constraining_variables, mrv_var)
 
-    return heapq.heappop(most_constraining_variables)
+    return heapq.heappop(most_constraining_variables).cell
 
 
-def mrv(state: State):
+def mrv(state: State) -> Cell:
     # This is Minimum Remaining Value algorithm
     # Which is two factors
     # 1. Most-constrained-variable heuristic
@@ -244,11 +246,32 @@ def mrv(state: State):
     return most_constraining_var
 
 
-def lcv(cell: Cell):
+def lcv(cell: Cell, state: State):
     # this is the least constraining value heuristic.
     # it should choose the value in the domain of the current cell to populate
     # which removes least values from other variables' domains
     # but the constraints are not binary, so it's not exactly as LCV.
+    lcv_domain = []
+    if cell.value == "_":
+        for domain in cell.domain:
+            count = 0
+            cell.value = domain
+            count += check_circles_limit_heuristic(state)
+            count += check_more_than_two_limit_heuristic(state)
+            count += is_unique_limit_heuristic(state)
+            cell.value = "_"
+            lcv_var = LCV_Var(cell, count)
+            heapq.heappush(lcv_domain, count)
+        return lcv_domain
+
+
+def AC3():
+    pass
+
+
+def forward_checking():
+    # this function do a forward checking on the board with the new assignment.
+    # it returns false if the variable's domain is completely deleted after checking / returns true if not.
     pass
 
 
@@ -256,9 +279,13 @@ def backTrack(state: State):
     if is_assignment_complete(state):
         return state
     else:
-        var = mrv(state)
+        X = mrv(state)
+        D = lcv(X, state)
+        while D:
+            val = heapq.heappop(D)
+            X.value = val
 
-        pass
+            pass
 
 
 def is_assignment_complete(state: State):  # check if all variables are assigned or not
