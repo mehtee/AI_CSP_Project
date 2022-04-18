@@ -2,7 +2,8 @@ from copy import deepcopy
 import math
 import State
 import Cell
-
+import heapq
+from MRV_Var import MRV_Var
 
 def check_more_than_two_limit(state: State):
     # check rows
@@ -211,9 +212,27 @@ def most_constrained_variables(variables: list):
 
     return most_constrained_vars
 
-def most_constraining_variable(most_constrained_variables):
+
+def most_constraining_variable(state:State, most_constrained_variables):
     # returns the most constraining variable
-    return None
+    most_constraining_variables = []
+    for cell in most_constrained_variables:
+        if cell.value == "_":
+            count = 0
+            # check for black
+            cell.value = "b"
+            count += check_circles_limit_heuristic(state)
+            count += check_more_than_two_limit_heuristic(state)
+            count += is_unique_limit_heuristic(state)
+            cell.value = "w"
+            count += check_circles_limit_heuristic(state)
+            count += check_more_than_two_limit_heuristic(state)
+            count += is_unique_limit_heuristic(state)
+            cell.value = "_"
+            mrv_var = MRV_Var(cell, count)
+            heapq.heappush(most_constraining_variables, mrv_var)
+
+    return heapq.heappop(most_constraining_variables)
 
 def mrv(state: State):
     # This is Minimum Remaining Value algorithm
@@ -225,7 +244,8 @@ def mrv(state: State):
     vars = get_unassigned_variables(state)
     most_constrained_vars = most_constrained_variables(vars)
     print(most_constrained_vars)
-    most_constraining_var = most_constraining_variable(most_constrained_vars)
+    most_constraining_var = most_constraining_variable(state, most_constrained_vars)
+    print(most_constraining_var)
     return None
 
 
