@@ -33,8 +33,8 @@ class State:
                     print(whtieCircle, end='  ')
                 else:
                     print(line, end='')
+                    print(line, end='')
                     print(end='  ')
 
             print()
             print()
-			
