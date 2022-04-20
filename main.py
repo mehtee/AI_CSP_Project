@@ -2,7 +2,7 @@ from time import time
 from Binairo import *
 from Cell import *
 from State import *
-
+from Board import *
 
 def main():
     input_numbers = []
@@ -23,6 +23,7 @@ def main():
         for j in range(0, size_puzzle):
             cell = Cell(i, j)
             cell.value = "_"
+            cell.domain = ["W", "B"]
             row.append(cell)
         board.append(row)
 
@@ -30,21 +31,21 @@ def main():
 
         if input_numbers[i][2] == 0:  # w
             board[input_numbers[i][0]][input_numbers[i][1]].value = 'W'
-            board[input_numbers[i][0]][input_numbers[i][1]].domain = ['n']
+            board[input_numbers[i][0]][input_numbers[i][1]].domain = 'W'
 
         if input_numbers[i][2] == 1:  # b
             board[input_numbers[i][0]][input_numbers[i][1]].value = 'B'
-            board[input_numbers[i][0]][input_numbers[i][1]].domain = ['n']
+            board[input_numbers[i][0]][input_numbers[i][1]].domain = 'B'
 
     state = State(size_puzzle, board)
+    BoardObj = Board(state, new_domain(state), None)
     print('initial board:')
     state.print_board()
     start_time = time()
-    # backTrack(state)   implement backTrack and other csp functions in Binairo.py
+    backTrack(BoardObj, 'start')
     end_time = time()
     print('time: ', end_time - start_time)
 
 
 if __name__ == "__main__":
     main()
-	
